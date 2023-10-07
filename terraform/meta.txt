@@ -1,0 +1,9 @@
+#cloud-config
+users:
+  - default
+  - name: jenadmin
+    groups: wheel
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ssh-rsa <key>
