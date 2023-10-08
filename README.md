@@ -164,8 +164,54 @@ build:
 
 ![Alt text](image-1.png)
 
+ Еще сделал вариант с сонар кубом:
+
+ Поставил сонаркуб:
+
+ ![Alt text](image-2.png)
  
- 
+ Сделал код:
+
+ ```
+ stages:
+  - test
+  - build
+
+test:
+  stage: test
+  image: golang:1.16
+  script: 
+   - go test .
+
+sonarqube-check:
+ stage: test
+ image:
+  name: sonarsource/sonar-scanner-cli
+  entrypoint: [""]
+ variables:
+ script:
+  - sonar-scanner -Dsonar.projectKey=my_project1 -Dsonar.sources=. -Dsonar.host.url=http://git.dmil.ru:9000 -Dsonar.login=sqp_8c2a8314946ad72ff3b1474a9f41cd18e2d5ac6e
+
+build:
+  stage: build
+  image: docker:latest
+  only:
+    - master
+  script:
+   - docker build .
+
+build:
+  stage: build
+  image: docker:latest
+  when: manual
+  except:
+    - master
+  script:
+   - docker build .
+ ```
+
+
+
 ---
 ## Дополнительные задания* (со звёздочкой)
 
